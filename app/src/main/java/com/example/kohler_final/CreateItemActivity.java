@@ -63,11 +63,6 @@ public class CreateItemActivity extends AppCompatActivity {
             Log.i("INFO", String.format("saving %s, %s", ItemString, DateString));
 
             dbhelper.insertItem(ItemString, DateString);
-
-            /*ContentValues values = new ContentValues();
-            values.put(DBHelper.ITEM_COL, ItemString);
-            values.put(DBHelper.DATE_COL, DateString);
-            db.insert(DBHelper.TABLE_NAME, null, values);*/
             Toast.makeText(this, "Item Created", Toast.LENGTH_LONG).show();
         });
 

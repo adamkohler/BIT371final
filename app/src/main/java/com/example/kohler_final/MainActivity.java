@@ -2,7 +2,10 @@ package com.example.kohler_final;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.ListView;
 
@@ -27,5 +30,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        DBHelper db = new DBHelper(this, DBHelper.DATABASE_NAME, null, 1);
+        SQLiteDatabase reader = db.getReadableDatabase();
+        String[] columns = {"_id", DBHelper.DONE_COL, DBHelper.ITEM_COL, DBHelper.DATE_COL};
+        Cursor cursor = reader.query(DBHelper.TABLE_NAME, columns, null, null, null, null, null);
+        ItemCursorAdapter cursorAdapter = new ItemCursorAdapter(this, cursor, true);
+        ToDoList.setAdapter(cursorAdapter);
     }
 }
