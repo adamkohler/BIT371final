@@ -3,11 +3,16 @@ package com.example.kohler_final;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -22,6 +27,7 @@ public class CreateItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_item);
 
+        Button createbtn = findViewById(R.id.create_btn);
         item = findViewById(R.id.item_name);
         date = findViewById(R.id.date);
         date.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +52,24 @@ public class CreateItemActivity extends AppCompatActivity {
         //Add stuff to database here?
         DBHelper dbhelper = new DBHelper(this, DBHelper.DATABASE_NAME, null, 1);
         SQLiteDatabase db = dbhelper.getWritableDatabase();
+
+        createbtn.setOnClickListener((view) -> {
+            String ItemString = item.getText().toString();
+            String DateString = date.getText().toString();
+            if (TextUtils.isEmpty(ItemString) || TextUtils.isEmpty(DateString)){
+                Log.i("INFO", "Empty Value");
+                return;
+            }
+            Log.i("INFO", String.format("saving %s, %s", ItemString, DateString));
+
+            dbhelper.insertItem(ItemString, DateString);
+
+            /*ContentValues values = new ContentValues();
+            values.put(DBHelper.ITEM_COL, ItemString);
+            values.put(DBHelper.DATE_COL, DateString);
+            db.insert(DBHelper.TABLE_NAME, null, values);*/
+            Toast.makeText(this, "Item Created", Toast.LENGTH_LONG).show();
+        });
 
 
         //Return to MainActivity
