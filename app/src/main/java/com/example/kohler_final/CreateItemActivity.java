@@ -3,6 +3,7 @@ package com.example.kohler_final;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -43,6 +44,8 @@ public class CreateItemActivity extends AppCompatActivity {
         });
 
         //Add stuff to database here?
+        DBHelper dbhelper = new DBHelper(this, DBHelper.DATABASE_NAME, null, 1);
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
 
 
         //Return to MainActivity
