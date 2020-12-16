@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -31,7 +32,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void setDone(int id, boolean done) {
         ContentValues values = new ContentValues();
-        values.put(DONE_COL, done);
+        int inputDone;
+        if (done)
+            inputDone = 1;
+        else
+            inputDone = 0;
+        //Log.i("DEBUG", "value of done in the setDone method is " + done );
+
+
+        values.put(DONE_COL, inputDone);
         getWritableDatabase().update(TABLE_NAME, values, "_id=?", new String[]{Integer.toString(id)});
     }
 
