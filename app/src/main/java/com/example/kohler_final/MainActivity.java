@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.add_item_btn);
         fab.setOnClickListener((view) -> startActivity(intent));
 
+        //The below code not needed in the onCreate method??
         /*ToDoList = findViewById(R.id.Item_list);
         ToDoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

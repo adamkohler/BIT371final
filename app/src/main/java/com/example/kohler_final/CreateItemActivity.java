@@ -60,10 +60,12 @@ public class CreateItemActivity extends AppCompatActivity {
                 Log.i("INFO", "Empty Value");
                 return;
             }
-            Log.i("INFO", String.format("saving %s, %s", ItemString, DateString));
+            Log.i("INFO", String.format("Saving Item %s, Date %s", ItemString, DateString));
 
             dbhelper.insertItem(ItemString, DateString);
             Toast.makeText(this, "Item Created", Toast.LENGTH_LONG).show();
+            item.getText().clear();
+            date.getText().clear();
         });
 
 
