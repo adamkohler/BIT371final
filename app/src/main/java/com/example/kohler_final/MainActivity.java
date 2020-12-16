@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> data;
     private int boxLocation;
     private int done;
+    private CheckBox cb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +35,17 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CreateItemActivity.class);
         FloatingActionButton fab = findViewById(R.id.add_item_btn);
         fab.setOnClickListener((view) -> startActivity(intent));
-        ToDoList = findViewById(R.id.Item_list);
+
+        /*ToDoList = findViewById(R.id.Item_list);
         ToDoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 CheckBox cb = (CheckBox) view.findViewById(R.id.position);
-                // use int i + 1 for location of click
-                //Log.i("INFO", "CheckedBox line " + l + " pressed value for 'l'");
-                //Log.i("INFO", "CheckBox line " + i + " pressed value for 'i'");
                 boxLocation = i + 1;
             }
         });
         DBHelper db = new DBHelper(this, DBHelper.DATABASE_NAME, null, 1);
-        db.setDone(boxLocation, true);
+        db.setDone(boxLocation, true);*/
     }
 
     //On Resume view function? After the db has been updated with new to do item?
@@ -58,28 +57,32 @@ public class MainActivity extends AppCompatActivity {
         String[] columns = {"_id", DBHelper.DONE_COL, DBHelper.ITEM_COL, DBHelper.DATE_COL};
         Cursor cursor = reader.query(DBHelper.TABLE_NAME, columns, null, null, null, null, null);
         ItemCursorAdapter cursorAdapter = new ItemCursorAdapter(this, cursor, true);
-        ToDoList.setAdapter(cursorAdapter);
-
         ToDoList = findViewById(R.id.Item_list);
+        ToDoList.setAdapter(cursorAdapter);
         ToDoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 boxLocation = i + 1;
-
+                cb = (CheckBox) view.findViewById(R.id.checkBox);
                 if (cursor.moveToPosition(i))
                 {
                     done = cursor.getInt(cursor.getColumnIndex("done"));
-                    //since cursor starts -1 then the first item in the table is 0? seems weird.
-                    //Log.i("INFO", "Record "+ i + " has done value of " + done);
                 }
-                if (done == 0)
+                if (done == 0) {
                     db.setDone(boxLocation, true);
-                else
+                    cb.setChecked(true);
+                } //Odd thing here, I can click multiple list items and it will update the done value in the db,
+                // but only for the first time I have clicked a list item
+                else {
                     db.setDone(boxLocation, false);
+                    cb.setChecked(false);
+                }
             }
         });
     }
 }
+
+
     /*@Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putSerializable("d", data);
